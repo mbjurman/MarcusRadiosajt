@@ -10,7 +10,7 @@ App.Channel = Em.Object.extend({
     name: null,
     imageurl: null,
     category: null,
-    streamingurls: []
+    url: null
 });
 
 
@@ -20,14 +20,14 @@ App.Channel = Em.Object.extend({
 App.channelView = Ember.View.extend({
 	content: null,
 	show: function(event, view){
-		mp3streams = jQuery.grep(this.content.streamingurls, function(n, i){
-			return (n.type === "mp3");
-		});	
+		var url = this.content.url;
 
 		App.player.jPlayer("setMedia", {
-			mp3:mp3streams[0].url
+			mp3:url
 		});
 		App.player.jPlayer("play");
+		$("#zen").addClass( "play" );
+		//$("#zen .circle").addClass( "play" );
 		App.playerMetadata.set('title', this.content.name);
 		App.playerMetadata.set('imageurl', this.content.imageurl);
 	}
@@ -41,18 +41,18 @@ App.channelsController = Em.ArrayController.create({
     content: [],
     loadChannels: function() {
         var me = this;
-		var url = 'http://sverigesradio.se/api/v2/channels?pagination=false&format=json&callback=?';
+		var url = 'http://beta.sr.se/api/v2/channels?pagination=false&format=json&callback=?';
 		$.getJSON(url,function(data){
 			me.set('content', []);
 			$(data).each(function(index,value){
 			    $(value.channels).each(function(index2,value2){
 					var t = App.Channel.create({
 						name: value2.name,
-						imageurl: value2.socialimage,
-						category: value2.category,
-						streamingurls: value2.streamingurls
+						imageurl: value2.image,
+						category: value2.channeltype,
+						url: value2.liveaudio.url
 					});
-					if (t.category !== "Lokala kanaler" && t.category !== "Extrakanaler")
+					if (!Ember.empty(t.imageurl) && t.category !== "Lokal kanal" && t.category !== "Extrakanaler")
 					{
 						me.pushObject(t);
 					}
@@ -79,21 +79,6 @@ App.playerMetadata = Em.Object.create({
 })
 
 App.channelsController.loadChannels();
-App.player = $("#jquery_jplayer_1");
-App.player.jPlayer({
-	isPlaying: false,
-	ready: function () {
-		$(this).jPlayer("setMedia", {
-			mp3:"http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3"
-		});
-	},
-	pause: function () {
-		this.set('isPlaying', false);
-	},
-	playing: function () {
-		this.set('isPlaying', true);
-	},	
-	swfPath: "js",
-	supplied: "mp3",
-	wmode: "window"
-});
+//App.player = $("#jquery_jplayer_1");
+App.player = $("#zen .player");
+
