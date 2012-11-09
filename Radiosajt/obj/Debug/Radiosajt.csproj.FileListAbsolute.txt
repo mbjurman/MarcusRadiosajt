@@ -1,5 +1,0 @@
-C:\Dev\Radiosajt\Radiosajt\bin\Radiosajt.dll
-C:\Dev\Radiosajt\Radiosajt\bin\Radiosajt.pdb
-C:\Dev\Radiosajt\Radiosajt\obj\Debug\ResolveAssemblyReference.cache
-C:\Dev\Radiosajt\Radiosajt\obj\Debug\Radiosajt.dll
-C:\Dev\Radiosajt\Radiosajt\obj\Debug\Radiosajt.pdb
