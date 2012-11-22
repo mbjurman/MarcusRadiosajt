@@ -9,23 +9,23 @@
 			max-width: 900px;
 		}
 
-		.channel-list ul {
+		#channel-list ul {
 			list-style-type: none;
 		}
 
-		.channel-list img {
+		#channel-list img {
 			margin-left: auto;
 			margin-right: auto;
 		}
 
-		.channel-list li {
+		#channel-list li {
 			padding: 20px;
 			float: left;
 			display: inline-block;
 			min-width: 50px;
 		}
 
-		.channel-list-area div {
+		#channel-list-area div {
 			width: "100%";
 		}
 
@@ -33,6 +33,22 @@
 			padding: 40px;
 		}
 	</style>
+
+	<script type="text/x-handlebars" data-template-name="channel-list">
+		<ul id="channel-list">
+		{{#each App.channelsController}}
+			{{view App.ChannelView contentBinding="this" }}
+		{{/each}}
+		</ul>
+	</script>	
+
+	<script type="text/x-handlebars" data-template-name="channel-list-item">
+		<li>
+			<a href="#" {{action "show"}}>
+				<img class="img-rounded" style="max-width:100px" {{bindAttr src="imageurl"}} /><br>
+			</a>
+		</li>
+	</script>	
 </head>
 
 <body>
@@ -42,20 +58,7 @@
 	</audio>
 
 
-	<div class="channel-list-area">
-		<script type="text/x-handlebars">
-			<ul class="channel-list">
-				{{#each App.channelsController}}
-				{{#view App.channelView contentBinding="this" }}
-				<li>
-					<a href="#" {{action "show"}}>
-						<img class="img-rounded" style="max-width:100px" {{bindAttr src="imageurl"}} /><br>
-					</a>
-				</li>
-				{{/view}}
-				{{/each}}
-			</ul>
-		</script>
+	<div id="channel-list-area">
 	</div>
 
     <script src="js/jquery-1.7.2.min.js"></script>
